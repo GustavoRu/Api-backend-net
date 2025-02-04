@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // builder.Services.AddKeyedSingleton<IPeopleServices, PeopleServices>("peopleServices");
 builder.Services.AddScoped<IPostsService, PostsService>();
+builder.Services.AddScoped<IBeerService, BeerService>();
 
 //HttpClient for consume REST.
 builder.Services.AddHttpClient<IPostsService, PostsService>(client =>
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<StoreContext>(options => { options.UseSqlServer(bu
 
 //validators
 builder.Services.AddScoped<IValidator<BeerInsertDto>, BeerInsertValidator>();
+builder.Services.AddScoped<IValidator<BeerUpdateDto>, BeerUpdateValidator>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
