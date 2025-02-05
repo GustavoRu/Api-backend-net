@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // builder.Services.AddKeyedSingleton<IPeopleServices, PeopleServices>("peopleServices");
 builder.Services.AddScoped<IPostsService, PostsService>();
-builder.Services.AddScoped<IBeerService, BeerService>();
+builder.Services.AddKeyedScoped<ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto>, BeerService>("beerService");
 
 //HttpClient for consume REST.
 builder.Services.AddHttpClient<IPostsService, PostsService>(client =>

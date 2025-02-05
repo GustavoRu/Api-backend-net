@@ -12,17 +12,15 @@ namespace MyApp.Namespace
     [ApiController]
     public class BeerController : ControllerBase
     {
-        private StoreContext _context; //sera eliminado ya que se usara el servicio
         private IValidator<BeerInsertDto> _beerInsertValidator;
         private IValidator<BeerUpdateDto> _beerUpdateValidator;
-        private IBeerService _beerService;
-
-        public BeerController(StoreContext context, IValidator<BeerInsertDto> beerInsertValidator, IValidator<BeerUpdateDto> beerUpdateValidator, IBeerService beerService)
+        private ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> _beerService;
+        public BeerController(StoreContext context, IValidator<BeerInsertDto> beerInsertValidator, IValidator<BeerUpdateDto> beerUpdateValidator,[FromKeyedServices("beerService")] ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService)
         {
-            _context = context;//sera eliminado ya que se usara el servicio
             _beerInsertValidator = beerInsertValidator;
             _beerUpdateValidator = beerUpdateValidator;
             _beerService = beerService;
+            
         }
 
         [HttpGet]
