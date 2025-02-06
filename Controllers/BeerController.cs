@@ -15,7 +15,7 @@ namespace MyApp.Namespace
         private IValidator<BeerInsertDto> _beerInsertValidator;
         private IValidator<BeerUpdateDto> _beerUpdateValidator;
         private ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> _beerService;
-        public BeerController(StoreContext context, IValidator<BeerInsertDto> beerInsertValidator, IValidator<BeerUpdateDto> beerUpdateValidator,[FromKeyedServices("beerService")] ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService)
+        public BeerController(IValidator<BeerInsertDto> beerInsertValidator, IValidator<BeerUpdateDto> beerUpdateValidator,[FromKeyedServices("beerService")] ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService)
         {
             _beerInsertValidator = beerInsertValidator;
             _beerUpdateValidator = beerUpdateValidator;
@@ -44,6 +44,7 @@ namespace MyApp.Namespace
             }
 
             var beerDto = await _beerService.Add(beerInsertDto);
+
 
             return CreatedAtAction(nameof(GetByid), new { id = beerDto.Id }, new BeerDto
             {
