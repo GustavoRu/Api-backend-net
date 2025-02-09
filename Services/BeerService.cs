@@ -41,15 +41,14 @@ namespace Backend.Services
             return _mapper.Map<BeerDto>(beer);
         }
 
-        public async Task<BeerDto> Update(int id, BeerUpdateDto beerDto)
+        public async Task<BeerDto> Update(int id, BeerUpdateDto beerUpdateDto)
         {
             var beer = await _beerRepository.GetById(id);
 
             if (beer != null)
             {
-                beer.Name = beerDto.Name;
-                beer.BrandId = beerDto.BrandId;
-                beer.Alcohol = beerDto.Alcohol;
+                beer = _mapper.Map<BeerUpdateDto, Beer>(beerUpdateDto, beer);
+
                 _beerRepository.Update(beer);
                 await _beerRepository.Save();
 

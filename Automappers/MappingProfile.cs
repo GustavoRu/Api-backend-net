@@ -11,6 +11,7 @@ namespace Backend.Automappers
             CreateMap<BeerInsertDto, Beer>();
             CreateMap<Beer, BeerDto>()
                 .ForMember(dto => dto.Id, m => m.MapFrom(b => b.BeerId));
+            CreateMap<BeerUpdateDto, Beer>();    
         }
 
     }
