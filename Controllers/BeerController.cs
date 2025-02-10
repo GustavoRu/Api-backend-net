@@ -15,12 +15,12 @@ namespace MyApp.Namespace
         private IValidator<BeerInsertDto> _beerInsertValidator;
         private IValidator<BeerUpdateDto> _beerUpdateValidator;
         private ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> _beerService;
-        public BeerController(IValidator<BeerInsertDto> beerInsertValidator, IValidator<BeerUpdateDto> beerUpdateValidator,[FromKeyedServices("beerService")] ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService)
+        public BeerController(IValidator<BeerInsertDto> beerInsertValidator, IValidator<BeerUpdateDto> beerUpdateValidator, [FromKeyedServices("beerService")] ICommonService<BeerDto, BeerInsertDto, BeerUpdateDto> beerService)
         {
             _beerInsertValidator = beerInsertValidator;
             _beerUpdateValidator = beerUpdateValidator;
             _beerService = beerService;
-            
+
         }
 
         [HttpGet]
@@ -43,6 +43,11 @@ namespace MyApp.Namespace
                 return BadRequest(validationResult.Errors);
             }
 
+            if (!_beerService.Validate(beerInsertDto))
+            {
+                return BadRequest(_beerService.Errors);
+            }
+
             var beerDto = await _beerService.Add(beerInsertDto);
 
 
@@ -62,6 +67,11 @@ namespace MyApp.Namespace
             if (!validationResult.IsValid)
             {
                 return BadRequest(validationResult.Errors);
+            }
+
+            if (!_beerService.Validate(beerUpdatetDto))
+            {
+                return BadRequest(_beerService.Errors);
             }
 
             var beerDto = await _beerService.Update(id, beerUpdatetDto);
